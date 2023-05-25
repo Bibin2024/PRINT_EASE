@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background-repeat: no-repeat;
-  background-image: url("./Images/clgImg.jpg");
+  background-image: url("./images/clgImg.jpg");
   background-size: cover;
   background-position:center;
   justify-content: center;
