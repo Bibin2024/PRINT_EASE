@@ -2,12 +2,23 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
+  background-repeat: no-repeat;
+  background-image: url("./Images/clgImg.jpg");
+  background-size: cover;
+  background-position:center;
+  justify-content: center;
 }
 
-.container{
-  margin: 20px;
+.container {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
+
 .container h1 {
   font-family: 'Poppins', sans-serif;
   font-size: 1.8rem;
@@ -17,11 +28,11 @@ body {
   margin-top: 0;
 }
 .main{
-  max-width: 800px;
+  max-width: 75%;
   margin: 60px auto;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: #ffffffd5;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   box-sizing: border-box;
 }
@@ -69,6 +80,7 @@ h1 {
 .upload-form {
   margin-top: 20px;
   text-align: center;
+  margin:0%;
 }
 
 .upload-form label {
@@ -81,9 +93,10 @@ h1 {
 }
 
 .upload-form .file-upload {
-  border: 2px dashed #ccc;
+  border: 2px dashed #1d0202;
   padding: 20px;
   cursor: grab;
+  
 }
 
 .upload-form .file-upload:hover {
@@ -94,22 +107,6 @@ h1 {
   margin: 0;
 }
 
-.upload-form .upload-button {
-  margin-top: 10px;
-  background-color: cornflowerblue;
-  border-radius: 50px;
-  color: #fff;
-  padding: 10px 20px;
-  font-size: 1rem;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.upload-form .upload-button:hover {
-  background-color: #4466ee;
-}
 
 .containers {
   display: flex;
@@ -183,15 +180,6 @@ h1 {
   box-shadow: inset 0 0 0 0.125em #00005c;
 }
 
-
-.fas.fa-microphone {
-  color: #ff0000;
-}
-
-.fas.fa-microphone-slash {
-  color: #999999;
-}
-
 .microphone-container {
   display: flex;
   justify-content: center;
@@ -208,16 +196,17 @@ h1 {
   margin-bottom: 10px;
 }
 
-.microphone-button {
+.addButton {
   background-color: cornflowerblue;
-  border: none;
-  outline: none;
-  font-size: 14px;
   color: #fff;
-  cursor: pointer;
-  margin: 10px;
-  padding: 10px 10px;
-  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 7px;
+  border: none;
+  letter-spacing: 2px;
+  transition: 0.5s;
+  transition-property: box-shadow;
 }
 
 .radio1 label,
@@ -230,11 +219,6 @@ h1 {
   .microphone-container {
     flex-direction: column;
     align-items: center;
-  }
-
-  .microphone-button {
-    font-size: 20px;
-    margin: 5px 0;
   }
 }
 .counter{
@@ -329,4 +313,44 @@ h1 {
 
 .input:checked + .btn .span {
   color: var(--font-color-light);
+}
+.r3 {
+  display: flex;
+  width: 50%;
+  gap: 10px;
+}
+.r1 {
+  display: flex;
+  width: 49%;
+  gap: 10px;
+}
+.r5 {
+  display: flex;
+  width: 53%;
+  padding-right: 10%;
+}
+.shadow__btn {
+  margin-top: 10%;
+  padding: 10px 20px;
+  border: none;
+  font-size: 17px;
+  color: #fff;
+  border-radius: 7px;
+  letter-spacing: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: 0.5s;
+  transition-property: box-shadow;
+}
+
+.shadow__btn {
+  background: rgb(0,140,255);
+  box-shadow: 0 0 25px rgb(0,140,255);
+}
+
+.shadow__btn:hover {
+  box-shadow: 0 0 5px rgb(0,140,255),
+              0 0 25px rgb(0,140,255),
+              0 0 50px rgb(0,140,255),
+              0 0 100px rgb(0,140,255);
 }
