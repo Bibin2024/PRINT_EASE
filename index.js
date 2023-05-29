@@ -9,6 +9,43 @@ function displayFileName() {
   }
 }
 
+function pay(){
+    var data=document.getElementsByName("btn");
+    var i;
+    for(i=0;i<=data.length;i++){
+        if(data[i].checked){
+            if(data[i].value=="Offline"){
+                window.location.assign("offline.html")
+            }
+            else{
+                window.location.assign("online.html")
+            }
+        }
+    }
+}
+
+
+function profile(){
+    window.location.assign("profile.html")
+}
+
+const plus=document.querySelector(".plus"),
+minus=document.querySelector(".minus"),
+num=document.querySelector(".num");
+let a =1;
+plus.addEventListener("click", ()=>{
+  a++;
+  a=(a<10)?"0"+a:a;
+  num.innerText=a;
+  console.log(a);
+});
+minus.addEventListener("click", ()=>{
+  if(a>1){
+    a--;
+    a=(a<10)?"0"+a:a;
+    num.innerText=a;
+  }
+});
 // collect DOMs
 const display = document.querySelector('.display')
 const controllerWrapper = document.querySelector('.controllers')
@@ -129,5 +166,4 @@ const application = (index) => {
     }
 
 }
-
 application(stateIndex)
