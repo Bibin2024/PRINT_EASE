@@ -1,3 +1,4 @@
-function pay(){
-    window.location.assign("success.html")
+let popup=document.getElementById("popup");
+function openpopup(){
+    popup.classList.add("open-popup")
 }
