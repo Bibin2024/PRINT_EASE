@@ -44,18 +44,22 @@ body {
     margin: 20px auto;
     max-width: 800px;
     padding: 20px;
+    align-items: center;
     border-radius: 10px;
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
+    display: flex;
+    justify-content: center; 
   }
-  .container h1 {
+  
+  .main h1 {
     font-family: 'Poppins', sans-serif;
     font-size: 1.8rem;
     font-weight: bold;
     color: #414181;
     text-align: center;
-    margin-top: 0;
+    margin-top: 30px;
   }
   .main{
     max-width: 75%;
@@ -63,31 +67,57 @@ body {
     padding: 10px;
     border-radius: 10px;
     background-color: #ffffffd5;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
   }
-  .shadow__btn {
-    margin-top: 10%;
-    padding: 10px 20px;
+  .Btn {
+    width: 130px;
+    height: 50px;
+    margin: 0 auto;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(15, 15, 15);
     border: none;
-    font-size: 17px;
-    color: #fff;
-    border-radius: 7px;
-    letter-spacing: 4px;
-    font-weight: 700;
-    text-transform: uppercase;
-    transition: 0.5s;
-    transition-property: box-shadow;
+    color: white;
+    font-weight: 600;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.103);
+    position: relative;
+    overflow: hidden;
+    transition-duration: .3s;
   }
   
-  .shadow__btn {
-    background: rgb(0,140,255);
-    box-shadow: 0 0 25px rgb(0,140,255);
+  
+  .svgIcon {
+    width: 16px;
   }
   
-  .shadow__btn:hover {
-    box-shadow: 0 0 5px rgb(0,140,255),
-                0 0 25px rgb(0,140,255),
-                0 0 50px rgb(0,140,255),
-                0 0 100px rgb(0,140,255);
+  .svgIcon path {
+    fill: white;
+  }
+  
+  .Btn::before {
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    content: "";
+    background-color: white;
+    border-radius: 50%;
+    left: -100%;
+    top: 0;
+    transition-duration: .3s;
+    mix-blend-mode: difference;
+  }
+  
+  .Btn:hover::before {
+    transition-duration: .3s;
+    transform: translate(100%,-50%);
+    border-radius: 0;
+  }
+  
+  .Btn:active {
+    transform: translate(5px,5px);
+    transition-duration: .3s;
   }
