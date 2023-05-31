@@ -1,32 +1,54 @@
-function displayFileName() {
-  const fileInput = document.getElementById('file-upload');
-  const fileName = document.getElementById('file-name');
+let fileName;
+let fileInput;
+var pageCount;
+document.getElementById("file-upload").addEventListener('change', function (event) {
+  fileInput = document.getElementById('file-upload');
   const labelUpload = document.getElementById('label-upload');
   if (fileInput.files.length > 0) {
     labelUpload.textContent = fileInput.files[0].name;
   } else {
-    fileName.textContent = '';
+    labelUpload.textContent = '';
   }
-}
+  fileName = fileInput.files[0].name;
+  document.querySelector(".button_wrapper").style.display="block";
+});
 
-function pay(){
-    var data=document.getElementsByName("btn");
-    var i;
-    for(i=0;i<=data.length;i++){
-        if(data[i].checked){
-            if(data[i].value=="Offline"){
-                window.location.assign("offline.html")
-            }
-            else{
-                window.location.assign("online.html")
-            }
-        }
+var script = document.createElement('script');
+script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.min.js';
+script.onload = function () {
+  document.getElementById("file-upload").addEventListener('change', function (event) {
+    const fileInput = document.getElementById('file-upload');
+
+    // Check if a file is selected
+    if (fileInput.files.length === 0) {
+      console.log('No file selected.');
+      return;
     }
+
+    const file = fileInput.files[0];
+
+    // Read the file
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const fileData = new Uint8Array(e.target.result);
+
+      // Load the PDF document
+      pdfjsLib.getDocument(fileData).promise.then(function (pdf) {
+        // Get the number of pages
+        pageCount = pdf.numPages;
+        //console.log('Number of pages:', pageCount);
+      }).catch(function (error) {
+        console.error('Error loading PDF:', error);
+      });
+    };
+    reader.readAsArrayBuffer(file);
+  });
 }
+document.head.appendChild(script);
 
 
 function profile(){
-    window.location.assign("profile.html")
+  window.location.assign("profile.html")
 }
 
 const plus=document.querySelector(".plus"),
@@ -46,124 +68,64 @@ minus.addEventListener("click", ()=>{
     num.innerText=a;
   }
 });
-// collect DOMs
-const display = document.querySelector('.display')
-const controllerWrapper = document.querySelector('.controllers')
 
-const State = ['Initial', 'Record', 'Download']
-let stateIndex = 0
-let mediaRecorder, chunks = [], audioURL = ''
 
-// mediaRecorder setup for audio
-if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
-    console.log('mediaDevices supported..')
+let mediaRecorder;
+let chunks = [];
+let stream;
+let audioPlayer = document.getElementById("audio-player");
+let audioUrl = 'null'
 
-    navigator.mediaDevices.getUserMedia({
-        audio: true
-    }).then(stream => {
-        mediaRecorder = new MediaRecorder(stream)
-
-        mediaRecorder.ondataavailable = (e) => {
-            chunks.push(e.data)
-        }
-
-        mediaRecorder.onstop = () => {
-            const blob = new Blob(chunks, {'type': 'audio/ogg; codecs=opus'})
-            chunks = []
-            audioURL = window.URL.createObjectURL(blob)
-            document.querySelector('audio').src = audioURL
-
-        }
-    }).catch(error => {
-        console.log('Following error has occured : ',error)
+document.getElementById("start").addEventListener('click', function (event) {
+  navigator.mediaDevices.getUserMedia({ audio: true })
+    .then(function (streamData) {
+      stream = streamData;
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.addEventListener('dataavailable', function (event) {
+        chunks.push(event.data);
+      });
+      mediaRecorder.start();
+      console.log('Recording started');
+      document.getElementById("stop").style.display="block";
+      document.getElementById("start").style.display="none";
+      document.getElementById("text").textContent="Recording : ";
     })
-}else{
-    stateIndex = ''
-    application(stateIndex)
+    .catch(function (error) {
+      console.error('Error accessing microphone : ', error);
+    });
+});
+
+document.getElementById("stop").addEventListener('click', function (event) {
+  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+    mediaRecorder.stop();
+    mediaRecorder.addEventListener('stop', function () {
+      const audioBlob = new Blob(chunks, { type: 'audio/webm' });
+      audioUrl = URL.createObjectURL(audioBlob);
+      console.log(audioPlayer)
+      audioPlayer.src = audioUrl;
+      //audioPlayer.play(); // Uncomment this line to play the recorded audio automatically
+      console.log('Recording stopped');
+      document.getElementById("start").style.display="block";
+      console.log('Audio URL:', audioUrl);
+      document.getElementById("audio-player").style.display = "block";
+      document.getElementById("stop").style.display="none";
+      document.getElementById("text").textContent="To Change recording : ";
+      // Do something with the recorded audio data (e.g., upload to Firebase)
+    });
+  }
+});
+
+function pay(){
+  var data=document.getElementsByName("btn");
+  var i;
+  for(i=0;i<=data.length;i++){
+      if(data[i].checked){
+          if(data[i].value=="Offline"){
+              window.location.assign("offline.html")
+          }
+          else{
+              window.location.assign("online.html")
+          }
+      }
+  }
 }
-
-const clearDisplay = () => {
-    display.textContent = ''
-}
-
-const clearControls = () => {
-    controllerWrapper.textContent = ''
-}
-
-const record = () => {
-    stateIndex = 1
-    mediaRecorder.start()
-    application(stateIndex)
-}
-
-const stopRecording = () => {
-    stateIndex = 2
-    mediaRecorder.stop()
-    application(stateIndex)
-}
-
-const downloadAudio = () => {
-    const downloadLink = document.createElement('a')
-    downloadLink.href = audioURL
-    downloadLink.setAttribute('download', 'audio')
-    downloadLink.click()
-}
-
-const addButton = (id, funString, text) => {
-  const btn = document.createElement('button');
-  btn.id = id;
-  btn.setAttribute('onclick', funString);
-  btn.textContent = text;
-  btn.classList.add('addButton');
-
-  controllerWrapper.append(btn);
-};
-
-const addMessage = (text) => {
-    const msg = document.createElement('p')
-    msg.textContent = text
-    display.append(msg)
-}
-
-const addAudio = () => {
-    const audio = document.createElement('audio')
-    audio.controls = true
-    audio.src = audioURL
-    display.append(audio)
-}
-
-const application = (index) => {
-    switch (State[index]) {
-        case 'Initial':
-            clearDisplay()
-            clearControls()
-
-            addButton('record', 'record()', 'Start Recording')
-            break;
-
-        case 'Record':
-            clearDisplay()
-            clearControls()
-
-            addMessage('Recording...')
-            addButton('stop', 'stopRecording()', 'Stop Recording')
-            break
-
-        case 'Download':
-            clearControls()
-            clearDisplay()
-
-            addAudio()
-            addButton('record', 'record()', 'Record Again')
-            break
-
-        default:
-            clearControls()
-            clearDisplay()
-
-            addMessage('Your browser does not support mediaDevices')
-            break;
-    }
-
-}
-application(stateIndex)
